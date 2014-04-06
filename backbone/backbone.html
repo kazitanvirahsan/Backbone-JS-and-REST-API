@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testing Page</title>
+<!--<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>-->      
+<script src="underscore.js"></script>
+<script src="jquery-1.11.0.min.js"></script>
+<script src="backbone.js"></script>      
+</head>
+    <body>
+
+<div id="search_container">123</div>
+<script type="text/javascript">
+$(function(){
+	
+  SearchView = Backbone.View.extend({
+        initialize : function() {
+        	this.render();
+        },
+        
+        events: {
+        	"click input[type=button]" : function (){
+        		//alert('the button is clicked');
+        	}
+        },
+        
+        render:function() {
+        	//alert('this is render');
+        	// compile the template using underscopre
+        	var template = _.template($('#search_template').html(), {});
+        	//alert(template);
+        	this.$el.html(template);
+        }
+    });
+    var search_view = new SearchView({ el: $("#search_container")});
+
+
+    Person = Backbone.Model.extend({
+    	defaults: {
+    	    name: 'kazi',
+    	    age:0,
+    	    children: []
+    	},
+        initialize : function() {
+            //alert('Welcome to tihs world.'); 	
+        },
+        
+        adopt : function (newChildname) {
+            var children_array = this.get("children");
+            children_array.push(newChildname);
+            this.set({children : children_array});
+        }
+        
+        
+    });
+    
+    //var person = new Person;
+    //person.set({name: "Tomas" , age: 67 , children: ['Ryan']});
+    //person.adopt('John');
+    //var children = person.get("children");
+    //alert(children);
+    //alert(person.get("name"));
+    
+    // Building a collection
+    var Song = Backbone.Model.extend({
+    	defaults: {
+    	    name : 'Not specified',
+    	    artist: 'Not specified'
+    	},
+    	initialize : function() {
+    	     console.log('Music is the answer');	
+    	}
+    });
+    
+    var Album = Backbone.Collection.extend({
+        model: Song	
+    });
+    
+    
+    var song1 = new Song({name: "How Bizarre" , artist : "OMC"});
+    var song2 = new Song({name: "Sexual Healing" , artist: "Marving Gaye"});
+    var song3 = new Song({name: "Talk It over" , artist : "OMC"});
+    
+    var myAlbum = new Album([song1 , song2 , song3]);
+    console.log(myAlbum.models);
+    
+
+});
+
+
+
+
+
+
+</script>
+ 
+<script type="text/template" id="search_template">
+    <label>Search</label>
+    <input type="text" id="search_input">
+    <input type="button" id="search_button" value="Search">
+</script>
+
+    <button id='update'>click me</button>   
+    </body>
+</html>
